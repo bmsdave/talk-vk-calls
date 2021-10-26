@@ -56,3 +56,9 @@ Reveal.isReady = () => false;
 Reveal.VERSION = VERSION;
 
 export default Reveal;
+
+import { init } from './components/video.js';
+
+Reveal.addEventListener( 'webrtc', function() {
+	document.querySelector('#showVideo').addEventListener('click', e => init(e));
+} );

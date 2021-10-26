@@ -8,7 +8,7 @@
 
 		<link rel="stylesheet" href="dist/reset.css">
 		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css">
+		<link rel="stylesheet" href="dist/theme/vk-calls.css">
 
 		<!-- Theme used for syntax highlighted code -->
 		<link rel="stylesheet" href="plugin/highlight/monokai.css">
@@ -16,181 +16,579 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>
-					<section>
-						видео звонки в вебе на 2000+ участников<br/>
-						Вадим Горбачев<br/>
-						команда VK calls
+				<section
+						data-transition="none"
+						class="main-text"
+				>
+					<section data-transition="none">
+						<h1 style="color: #4472c4">Звонки на 2000+ участников,<br />или Что умеет WebRTC</h1>
+						<p>@bmsdave</p>
+						<p>Вадим Горбачев</p>
+						<p>команда VK calls</p>
 					</section>
 	
-					<section>
-						Статистика<br/>
-						TBD
-						<aside class="notes">
-							1. сколько людей пользуются звонками
-						</aside>
+					<section data-transition="none" >
+						<div class="statistics">
+							<h1 class="statistics--header" style="color: #4472c4">Статистика</h1>
+							<div class="fragment statistics--main"><h1 style="font-size: 400px; color: #7fffff">4м</h1>звонков в день</div>
+							<div class="fragment statistics--right-1"><h1 style="font-size: 200px; color: #7fffff">200к</h1>через web</div>
+							<div class="fragment statistics--right-2"><h1 style="font-size: 200px; color: #7fffff">X</h1> часов присутствия в звонке в день</div>
+						</div>
+					</section>
+
+					<section data-transition="none" >
+						<div class="statistics">
+							<h1 class="statistics--header" style="color: #4472c4">Представители на рынке</h1>
+							<div class="view1--m">
+								<ul>
+									<li>Google meet</li>
+									<li>zoom web?</li>
+									<li>jitsy</li>
+									<li>MS Teams</li>
+								</ul>
+							</div>
+						</div>
 					</section>
 				</section>
 
-				<section>
-					<section data-background-color='#2D1674'>
-						Оглавление введения:
-						<ul>
-							<li>что такое webrtc</li>
-							<li>топологии звонков</li>
-							<li>из чего состоит видео (кадры опорники)</li>
-							<li>кодеки (h.264, vp9, av1)</li>
-							<li>webcodecs</li>
-							<li>особенности safari</li>
-							<li>функциональность звонков</li>
-						</ul>
-					
+				<section
+						data-transition="none"
+						class="main-text"
+				>
+					<section data-transition="none">
+						<div class="view1">
+							<h1 class="view1--h" style="color: #4472c4">Введение</h1>
+							<div class="view1--m">
+								<ul>
+									<li>WebRTC</li>
+									<li>Топологии</li>
+									<li>Видео</li>
+									<li>Кодеки</li>
+									<li>webcodecs</li>
+									<li>Функциональность</li>
+								</ul>
+							</div>
+						</div>
 					</section>
 	
-					<section data-background-color='#2D1674'>
-						что такое webrtc<br/>
-						<ul>
-							<li>захват видео/аудио</li>
-							<li>установка соединения</li>
-							<li>передача данных</li>
-						</ul><br/>
-						TBD схема с сигналингом STUN TURN и пр.
+					<section data-transition="none">
+						<div class="view2">
+							<h1 class="view2--h">WebRTC</h1>
+							<ul class="view2--m">
+								<li>захват видео/аудио</li>
+								<li>установка соединения</li>
+								<li>передача данных</li>
+							</ul>
+							<div class="view2--i">
+								<img src="images/webrtc-arh.png">
+							</div>
+						</div>
+					</section>
+
+					<section data-transition="none" data-state="webrtc">
+						<div class="view2">
+							<h1 class="view2--h">WebRTC</h1>
+							<ul class="view2--m">
+								<li>захват видео/аудио</li>
+								<li>установка соединения</li>
+								<li>передача данных</li>
+								<li>
+									<button id="showVideo">click</button>
+									<video id="gum-local" autoplay playsinline></video>
+								</li>
+							</ul>
+							<div class="view2--i">
+								<pre data-id="code" style="height: 600px"><code data-line-numbers class="hljs" data-trim>
+document.querySelector('#showVideo').addEventListener('click', e => init(e));
+
+async function init(e) {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia(constraints);
+    handleSuccess(stream);
+    e.target.disabled = true;
+  } catch (e) {
+    handleError(e);
+  }
+}
+function handleSuccess(stream) {
+  const video = document.querySelector('video');
+  const videoTracks = stream.getVideoTracks();
+  console.log('Got stream with constraints:', constraints);
+  console.log(`Using video device: ${videoTracks[0].label}`);
+  window.stream = stream; // make variable available to browser console
+  video.srcObject = stream;
+}
+								</code></pre>
+							</div>
+						</div>
+					</section>
+
+					<section data-transition="none">
+						<div class="view2">
+							<h1 class="view2--h">Топологии</h1>
+							<div class="view2--m">Как передаем?</div>
+							<img class="view2--i" src="images/topology.png" alt="topology">
+						</div>
 					</section>
 	
-					<section data-background-color='#2D1674'>
-						топологии звонков<br/>
-						<img src="images/topology.png" alt="topology">
+					<section data-transition="none">
+						<div class="view2">
+							<h1 class="view2--h">Видео</h1>
+							<div class="view2--m">Что передаем?</div>
+							<img class="view2--i" src="images/video-frames.png" alt="topology">
+						</div>
 					</section>
 	
-					<section data-background-color='#2D1674'>
-						из чего состоит видео<br/>
-						<img src="images/video-frames.png" alt="video-frames">
+					<section data-transition="none">
+						<div class="view2">
+							<h1 class="view2--h">Codecs</h1>
+							<div class="view2--m">Как кодируем?</div>
+							<img class="view2--i" src="images/codecs.png" alt="topology">
+						</div>
 					</section>
 	
-					<section data-background-color='#2D1674'>
-						кодеки VP9, h.264 и пр.<br/>
-						TBD график с производительность/качество
-						<img src="images/codecs.png" alt="codecs">
+					<section data-transition="none">
+						<div class="view2">
+							<h1 class="view2--h">webcodecs</h1>
+							<div class="view2--m"><a href="https://w3c.github.io/webcodecs/samples/">samples</a></div>
+							<img class="view2--i" src="images/webcodecs.png">
+						</div>
 					</section>
-	
-					<section data-background-color='#2D1674'>
-						webcodecs<br/>
-						TBD краткое описание API
+
+					<section data-transition="none">
+						<div class="view2">
+							<h1 class="view2--h">webcodecs</h1>
+							<div class="view2--m">пример с маской</div>
+							<div class="view2--i">
+																<pre data-id="code" style="height: 600px"><code data-line-numbers class="hljs" data-trim>
+document.querySelector('#showVideo').addEventListener('click', e => init(e));
+
+async function init(e) {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia(constraints);
+    handleSuccess(stream);
+    e.target.disabled = true;
+  } catch (e) {
+    handleError(e);
+  }
+}
+function handleSuccess(stream) {
+  const video = document.querySelector('video');
+  const videoTracks = stream.getVideoTracks();
+  console.log('Got stream with constraints:', constraints);
+  console.log(`Using video device: ${videoTracks[0].label}`);
+  window.stream = stream; // make variable available to browser console
+  video.srcObject = stream;
+}
+								</code></pre>
+							</div>
+						</div>
 					</section>
-	
-					<section data-background-color='#2D1674'>
-						особенности safari<br/>
-						TBD про боль и про репутацию
+
+					<section data-transition="none">
+						<div class="view2">
+							<h1 class="view2--h">Функциональность. Общение</h1>
+							<img class="view2--i" src="images/func-call.png" height="400px">
+							<ul class="view2--m">
+								<li>аудио</li>
+								<li>видео</li>
+								<li>скриншара</li>
+								<li>входящий/исходящий звонок</li>
+							</ul>
+						</div>
 					</section>
-	
-					<section data-background-color='#2D1674'>
-						функциональность звонков
-						<ul>
-							<li>аудио, видео, скриншара</li>
-							<li>грид, оратор, колбаса, свернутый звонок</li>
-							<li>режим админа, поднятие руки</li>
-							<li>трансляции</li>
-						</ul>
-						<img src="images/func-call.png" height="400px">
-					</section>	
-				</section>
-				
-				<section>
-					<section data-background-color='#000C66'>
-						Завязка. Первая версия звонков на 100
-						<img src="images/1-arch.jpg" alt="1-arch">
+
+					<section data-transition="none">
+						<div class="view2">
+							<h1 class="view2--h">Функциональность. Разные представления</h1>
+							<img class="view2--i" src="images/func-call.png" height="400px">
+							<ul class="view2--m">
+								<li>грид</li>
+								<li>оратор</li>
+								<li>боковая панель с участниками</li>
+								<li>свернутый звонок</li>
+							</ul>
+						</div>
 					</section>
-	
-					<section data-background-color='#000C66'>
-						Проблемы (оглавление завязки)
-						<ul>
-							<li>браузеры не выдерживают больше 50 видео.</li>
-							<li>слишком большая нагрузка на сеть</li>
-							<li>страдающая анимация</li>
-							<li>частные перерисовки (так как много активности)</li>
-						</ul>
+
+					<section data-transition="none">
+						<div class="view2">
+							<h1 class="view2--h">Функциональность. Управления</h1>
+							<img class="view2--i" src="images/func-call.png" height="400px">
+							<ul class="view2--m">
+								<li>режим админа</li>
+								<li>понятие руки</li>
+								<li>бан</li>
+								<li>мьют</li>
+							</ul>
+						</div>
 					</section>
-	
-					<section data-background-color='#000C66'>
-						Решение. audio mix
-						<img src="images/audio-mix.png" alt="audio-mix">
+
+					<section data-transition="none">
+						<div class="view2">
+							<h1 class="view2--h">Функциональность. Быстро и качественно</h1>
+							<img class="view2--i" src="images/func-call.png" height="400px">
+							<ul class="view2--m">
+								<li>Ноут не превращается в сковородку</li>
+								<li>качественное аудио и видео</li>
+							</ul>
+						</div>
 					</section>
-	
-					<section data-background-color='#000C66'>
-						Решение. видео по запросу<br/>
-						<img src="images/video-on-demand-1.jpg" height="600px" alt="video-on-demand-1">
-					</section>
-	
-					<section data-background-color='#000C66'>
-						Решение. видео по запросу<br/>
-						<img src="images/video-on-demand-2.jpg" height="600px" alt="video-on-demand-2">
-					</section>
-	
-					<section data-background-color='#000C66'>
-						Решение. качество по запросу<br/>
-						<img src="images/qualiti-on-demand.jpg" height="600px">
-					</section>
-	
-					<section data-background-color='#000C66'>
-						Решение. запрос key frame<br/>
-						<img src="images/key-frame-on-demand.jpg" height="600px">
-					</section>
-	
-					<section data-background-color='#000C66'>
-						Решение. intersection Observer (ошибка)
-						<img src="images/intersection-observer.jpg" height="600px">
-					</section>	
 				</section>
 
-				<section>
-					<section data-background-color='#05445E'>
-						[Развитие] Итог развязки<br/>
-						оптимизированный звонок на 100<br/>
-						[TBD] две картинки сравнения + сравнение по ресурсам сети, CPU
-					</section>
-					
-					<section data-background-color='#05445E'>
-						про UX
-						<ul>
-							<li>Отсутсвие индикации плохой сети</li>
-							<li>данные по сигналингу и стримы не всегда приходят синхронно</li>
-							<li>некоторые анимированные отрисовки сильно тормозили</li>
-							<li>при запросе видео с сервера, оно могло приходить очень долго в плоть до 10 секунд</li>
-							<li>"мылилась" скриншара</li>
-						</ul> 
+				<!--чатьс 2-->
+
+				<section data-transition="none">
+					<section data-transition="none">
+						<div class="view2">
+							<h1 class="view2--h">Архитектура звонков</h1>
+							<ul class="view2--m">
+								<li>
+									SDK
+									<ul class="view2--m">
+										<li>webrtc</li>
+										<li>audio/video</li>
+										<li>datachannel</li>
+										<li>сигналинг</li>
+									</ul>
+								</li>
+								<li>
+									React+Rudux
+									<ul class="view2--m">
+										<li>UI</li>
+										<li>аватарки, имена</li>
+										<li>отрисовки</li>
+										<li>входящие/исходящие</li>
+									</ul>
+								</li>
+							</ul>
+							<img class="view2--i" src="images/1-arch.jpg" alt="1-arch">
+						</div>
 					</section>
 	
-					<section data-background-color='#05445E'>
+					<section data-transition="none">
+						<div class="view1">
+							<h1 class="view1--h">Проблематика</h1>
+							<ul class="view1--m">
+								<li>Крэш при видео > 50</li>
+								<li>Много сетевого трафика расходуется зря, так как мы большую часть просто не показываем</li>
+							</ul>
+						</div>
+					</section>
+
+					<section data-transition="none">
+						<div class="view1">
+							<h1 class="view1--h">крэш при видео > 50</h1>
+							<div class="view1--m">
+								<a href="https://chromium-review.googlesource.com/c/chromium/src/+/2816118/9/content/renderer/media/media_factory.cc#420">commit</a>
+								<pre data-id="code" style="height: 600px"><code data-line-numbers class="hljs" data-trim>
+	// This limit corresponds to the per-platform 99.9th %ile of the number of
+	// WebMediaPlayers used by a single frame, as measured in March 2021. This
+	// tries to balance minimizing web platform breakage and preventing abusive
+	// API usage. See http://crbug.com/1144736#c49
+	constexpr size_t kDefaultMaxWebMediaPlayers =
+	#if defined(OS_ANDROID)
+		40;
+	#else
+		// All desktop platforms share the same value.
+		75;
+	#endif
+
+	size_t GetMaxWebMediaPlayers() {
+	  static const size_t kMaxWebMediaPlayers = []() {
+		auto* command_line = base::CommandLine::ForCurrentProcess();
+		if (command_line->HasSwitch(switches::kMaxWebMediaPlayerCount)) {
+		  std::string value =
+			  command_line->GetSwitchValueASCII(switches::kMaxWebMediaPlayerCount);
+		  size_t parsed_value = 0;
+		  if (base::StringToSizeT(value, &parsed_value) && parsed_value > 0)
+			return parsed_value;
+		}
+		return kDefaultMaxWebMediaPlayers;
+	  }();
+	  return kMaxWebMediaPlayers;
+	}
+
+    auto* delegate = GetWebMediaPlayerDelegate();
+  	// Prevent a frame from creating too many media players, as they are extremely
+  	// heavy objects and a common cause of browser memory leaks. See
+  	// crbug.com/1144736
+  	if (delegate->web_media_player_count() >= GetMaxWebMediaPlayers()) {
+		blink::WebString message =
+			"Blocked attempt to create a WebMediaPlayer as there are too many "
+			"WebMediaPlayers already in existence. See crbug.com/1144736#c27";
+		web_frame->GenerateInterventionReport("TooManyWebMediaPlayers", message);
+		return nullptr;
+  	}
+								</code></pre>
+							</div>
+							<img class="view1--r1" src="images/chrome-error.jpg" alt="audio-mix">
+							<div class="view1--r2" style="color: orangered">[Intervention] Blocked attempt to create a WebMediaPlayer as there are too many WebMediaPlayers already in existence. See crbug.com/1144736#c27</div>
+						</div>
+					</section>
+
+					<section data-transition="none">
+						<div class="view1">
+							<h1 class="view1--h">крэш при видео > 50</h1>
+							<div class="view1--m">
+								<pre data-id="code" style="height: 600px"><code data-line-numbers class="hljs" data-trim>
+// example 2
+function onEnded(){
+	this.currentSrc = null;
+    this.src = "";
+    this.srcObject = null;
+    this.remove();
+};
+
+// example 1
+mediaElement.remove();
+mediaElement.srcObject = null;
+								</code></pre>
+							</div>
+							<img class="view1--r1" src="images/player-destroy.png" alt="audio-mix">
+						</div>
+					</section>
+
+
+					<section data-transition="none">
+						<div class="view1">
+							<h1 class="view1--h">крэш при видео > 50</h1>
+							<div class="view1--m">
+								<ul>
+									<li class="fragment">запретить включать больше 40 видео (telegram)</li>
+									<li class="fragment">
+										слать не все видео/аудио потоки
+										<ul>
+											<li class="fragment">но как быть с аудио?</li>
+											<li class="fragment">какие именно видео не слать?</li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</section>
+
+					<section data-transition="none">
+						<div class="view2">
+							<h1 class="view2--h">крэш при видео > 50</h1>
+							<img class="view2--i" src="images/topology.png" alt="topology">
+						</div>
+					</section>
+
+					<section data-transition="none">
+						<div class="view2">
+							<h1 class="view2--h">MCU | audio mix</h1>
+							<img class="view2--i" src="images/audio-mix.png" alt="audio-mix">
+							<ul class="view2--m">
+								<li class="fragment">отправка видео не влияет на аудио</li>
+								<li class="fragment">перерисовки не влияют</li>
+								<li class="fragment">уже можно быть в звонке (даже без UI)</li>
+							</ul>
+						</div>
+					</section>
+	
+					<section data-transition="none">
+						<div class="view2">
+							<h1 class="view2--h">track on demand</h1>
+							<img src="images/video-on-demand-1.jpg" height="600px" alt="video-on-demand-1">
+							<div class="view2--m">
+																<pre data-id="code" style="height: 600px"><code data-line-numbers class="hljs" data-trim>
+  // onShow - идем за видео
+  // onHide - удаляем видео
+
+  React.useEffect(() => {
+    if (onShow && onHide) {
+      onShow(id);
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {onShow(id)} else {onHide(id)}
+        },
+        {
+          root: null,
+          rootMargin: '0px',
+          threshold: 0,
+        },
+      );
+      if (ref.current) { observer.observe(ref.current); }
+      return () => observer.disconnect();
+    }
+  }, [ref]);
+								</code></pre>
+							</div>
+						</div>
+					</section>
+
+					<section data-transition="none">
+						<div class="view2">
+							<h1 class="view2--h">track on demand</h1>
+							<img src="images/video-on-demand-2.jpg" height="600px" alt="video-on-demand-2">
+							<div class="view2--m">
+																<pre data-id="code" style="height: 600px"><code data-line-numbers class="hljs" data-trim>
+  // onShow - идем за видео
+  // onHide - удаляем видео
+
+  React.useEffect(() => {
+    if (onShow && onHide) {
+      onShow(id);
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {onShow(id)} else {onHide(id)}
+        },
+        {
+          root: null,
+          rootMargin: '0px',
+          threshold: 0,
+        },
+      );
+      if (ref.current) { observer.observe(ref.current); }
+      return () => observer.disconnect();
+    }
+  }, [ref]);
+								</code></pre>
+							</div>
+						</div>
+					</section>
+
+					<section data-transition="none">
+						<div class="view2">
+							<h1 class="view2--h">quality on demand</h1>
+							<img src="images/qualiti-on-demand.jpg" height="600px" alt="video-on-demand-2">
+							<div class="view2--m">
+																<pre
+																		data-id="code"
+																		style="height: 600px"
+																><code data-line-numbers="8,9|10-12" class="hljs" data-trim>
+function getGridLayout(
+  participant: Participant,
+  cardSize: number,
+  cardPriority: number,
+  mediaType: MediaType | null = null,
+): ParticipantLayout {
+  return {
+    uid: participant.id,
+    mediaType,
+    fit: Fit.COVER,
+    width: cardSize,
+    height: cardSize,
+    keyFrame: false,
+  };
+}
+								</code></pre>
+							</div>
+						</div>
+					</section>
+
+					<section data-transition="none">
+						<div class="view2">
+							<h1 class="view2--h">keyframe on demand</h1>
+							<img src="images/key-frame-on-demand.jpg" height="600px" alt="video-on-demand-2">
+							<div class="view2--m">
+																<pre
+																		data-id="code"
+																		style="height: 600px"
+																><code data-line-numbers="13" class="hljs" data-trim>
+function getGridLayout(
+  participant: Participant,
+  cardSize: number,
+  cardPriority: number,
+  mediaType: MediaType | null = null,
+): ParticipantLayout {
+  return {
+    uid: participant.id,
+    mediaType,
+    fit: Fit.COVER,
+    width: cardSize,
+    height: cardSize,
+    keyFrame: true,
+  };
+}
+								</code></pre>
+							</div>
+						</div>
+					</section>
+
+					<section data-transition="none">
+						<div class="view1">
+							<h1 class="view1--h">Результат</h1>
+							<ul class="view1--m">
+								<li style="text-decoration: line-through">крэш при видео > 50</li>
+								<li style="text-decoration: line-through">слишком большая нагрузка на сеть</li>
+								<li>Количество участников не ограничивается на клиентом</li>
+								<li>Уменьшили нагрузку на CPU/GPU/Net/RAM</li>
+								<li>Бережный расход батареи, не греется комп</li>
+							</ul>
+						</div>
+					</section>
+
+					<section data-transition="none">
+						<div class="view1">
+							<h1 class="view1--h">intersection observer</h1>
+							<ul class="view1--m">
+								<li class="fragment">пропускает элементы при быстром скролле</li>
+								<li class="fragment">срабатывает после отрисовки UI</li>
+								<li class="fragment">возникают утечки треков</li>
+							</ul>
+						</div>
+					</section>
+
+					<section data-transition="none">
+						<div class="view1">
+							<h1 class="view1--h">Проблематика</h1>
+							<ul class="view1--m">
+								<li style="text-decoration: line-through">крэш при видео > 50</li>
+								<li style="text-decoration: line-through">Много сетевого трафика расходуется зря, так как мы большую часть просто не показываем</li>
+								<li><b>Видео появляется не сразу</b></li>
+								<li><b>Необходимо нарисовать UI, перед тем как запрашивать видео</b></li>
+							</ul>
+						</div>
+					</section>
+				</section>
+
+				<section data-transition="none">
+					<section data-transition="none">
+						<div class="view1">
+							<h1 class="view1--h">UX оптимизации</h1>
+							<ul class="view1--m">
+								<li class="fragment">Отсутсвие индикации плохой сети</li>
+								<li class="fragment">данные по сигналингу и стримы не всегда приходят синхронно</li>
+								<li class="fragment">дорогие перерисовки</li>
+								<li class="fragment">некоторые анимированные отрисовки сильно тормозят</li>
+								<li class="fragment">"мылилась" скриншара</li>
+							</ul>
+						</div>
+					</section>
+
+					<section data-transition="none">
 						Работа в плохой сети<br/>
 						[TODO] узнать про плохую сеть, как определяется
 					</section>
 	
-					<section data-background-color='#05445E'>
+					<section data-transition="none">
 						datachannel и синхронизация <br/>
 						[TBD] картинка с рассинхроном зеленой рамки и говорения
 						<img src="images/datachannel.jpg" height="500px">
 					</section>
 	
-					<section data-background-color='#05445E'>
+					<section data-transition="none">
 						blur карточек<br/>
 						[TBD] картинка с блюром и графиками перформанса<br/>
 						[TBD] после переписывания на градиент
 					</section>
 	
-					<section data-background-color='#05445E'>
+					<section data-transition="none">
 						скриншара<br/>
 						[TBD] стоит ли про это рассказывать? Если да, поспрашивать Колю как работает<br/>
 						<img src="images/screenshare.svg" height="500px">
 					</section>	
 				</section>
 				
-				<section>
-					<section data-background-color='#1A5653'>
+				<section data-transition="none">
+					<section data-transition="none">
 						[кульминация] итог оптимизации по UX на 100.<br/>
 						[TBD] две картинки сравнения + сравнение по ресурсам сети, CPU<br/>
 					</section>
 	
-					<section data-background-color='#1A5653'>
+					<section data-transition="none">
 						оглавление на переход на 2000+<br/>
 						<ul>
 							<li>выходили за лимит хрома по webMediaPalayer</li>
@@ -199,17 +597,17 @@
 						</ul>
 					</section>
 	
-					<section data-background-color='#1A5653'>
+					<section data-transition="none">
 						видео слоты<br>
 						<img src="images/slots.jpg" height="600px">
 					</section>
 	
-					<section data-background-color='#1A5653'>
+					<section data-transition="none">
 						хранение DOM элемента вместо stream
 						<img src="images/dom.jpg" height="600px">
 					</section>
 	
-					<section data-background-color='#1A5653'>
+					<section data-transition="none">
 						группировка событий (батчинг)<br/>
 						<ul>
 							<li>на старте одно событие с слепком состояния звонка</li>
@@ -218,12 +616,12 @@
 						<img src="images/batch.jpg" height="400px">
 					</section>
 	
-					<section data-background-color='#1A5653'>
+					<section data-transition="none">
 						infinity scroll<br/>
 						<img src="images/infinity-scroll.jpg" height="600px">
 					</section>
 	
-					<section data-background-color='#1A5653'>
+					<section data-transition="none">
 						получение данных с сервера по запросу
 						<ul>
 							<li>список видимых карточек</li>
@@ -232,15 +630,15 @@
 						</ul>
 					</section>
 	
-					<section data-background-color='#1A5653'>
+					<section data-transition="none">
 						[развязка] демонстрация звонков на 6000+<br/>
 						+ итоги кульминации<br/>
 						видео с звонком на 6к
 					</section>	
 				</section>
 				
-				<section>
-					<section data-background-color='#613659'>
+				<section data-transition="none">
+					<section data-transition="none">
 						[глобальный вывод]
 						<ul>
 							<li>экспериментируйте</li>
@@ -249,12 +647,12 @@
 						</ul>
 					</section>
 	
-					<section data-background-color='#613659'>
+					<section data-transition="none">
 						философия<br/>
 						создание звонков больше напоминает gamedev нежели веб-разработку
 					</section>
 	
-					<section data-background-color='#613659'>
+					<section data-transition="none">
 						SDK и приглашение в команду
 					</section>
 				</section>

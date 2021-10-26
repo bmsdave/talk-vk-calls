@@ -1,0 +1,45 @@
+@font-face {
+    font-family: 'VK Sans Display';
+    src: url('VKSansDisplay-Medium.woff2') format('woff2'),
+        url('VKSansDisplay-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'VK Sans Display';
+    src: url('VKSansDisplay-DemiBold.woff2') format('woff2'),
+        url('VKSansDisplay-DemiBold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'VK Sans Display';
+    src: url('VKSansDisplay-Light.woff2') format('woff2'),
+        url('VKSansDisplay-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'VK Sans Display';
+    src: url('VKSansDisplay-Bold.woff2') format('woff2'),
+        url('VKSansDisplay-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'VK Sans Display';
+    src: url('VKSansDisplay-Regular.woff2') format('woff2'),
+        url('VKSansDisplay-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
