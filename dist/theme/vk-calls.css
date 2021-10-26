@@ -443,3 +443,7 @@ section.has-light-background, section.has-light-background h1, section.has-light
 .view2--i {
   grid-area: c;
 }
+
+.view {
+  display: grid;
+}
