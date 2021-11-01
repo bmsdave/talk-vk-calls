@@ -60,5 +60,9 @@ export default Reveal;
 import { init } from './components/video.js';
 
 Reveal.addEventListener( 'webrtc', function() {
-	document.querySelector('#showVideo').addEventListener('click', e => init(e));
+	const button = document.getElementById('showVideoButton');
+	document.getElementById('showVideoButton').addEventListener('click', () => {
+		init();
+		button.parentNode.removeChild(button);
+	});
 } );

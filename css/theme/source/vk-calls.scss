@@ -15,6 +15,15 @@
 @import url(./fonts/sf-pro-text/stylesheet.css);
 @import url(./fonts/vk-sans/stylesheet.css);
 
+@font-face {
+  font-family: "Virgil";
+  src: url("https://excalidraw.com/Virgil.woff2");
+}
+@font-face {
+  font-family: "Cascadia";
+  src: url("https://excalidraw.com/Cascadia.woff2");
+}
+
 
 // Override theme settings (see ../template/settings.scss)
 $backgroundColor: #000000;
@@ -126,7 +135,7 @@ $blue: #4472c4;
   grid-area: d;
 }
 
-// view 2 с большой картинкой
+// view 2 с большой картинкой внизу
 
 .view2 {
   display: grid;
@@ -150,6 +159,248 @@ $blue: #4472c4;
   grid-area: c;
 }
 
+
+// view 4 с большой картинкой сбоку
+
+.view4 {
+  display: grid;
+  grid-template-areas:
+            "a c c c"
+            "b c c c"
+            "b c c c";
+  width: 1800px;
+  height: 1000px;
+}
+
+.view4--h {
+  grid-area: a;
+}
+
+.view4--i {
+  grid-area: c;
+}
+
+.view4--m {
+  grid-area: b;
+}
+
+.view5 {
+  display: grid;
+  grid-template-areas:
+            "a a a"
+            "b c d";
+  width: 1800px;
+  height: 1000px;
+  text-align: center;
+}
+
+.view5--h {
+  grid-area: a;
+  text-align: left;
+}
+
+.view5--1 {
+  grid-area: b;
+}
+
+.view5--2 {
+  grid-area: c;
+}
+
+.view5--3 {
+  grid-area: d;
+}
+
+.view3 {
+  display: grid;
+  grid-template-areas:
+            "a b c"
+            "d e f";
+  width: 1800px;
+  height: 1000px;
+  text-align: center;
+}
+
+.view6 {
+  display: grid;
+  grid-template-areas:
+            "a"
+            "b";
+  width: 1800px;
+  height: 1000px;
+  text-align: center;
+}
+
+.view6--h { grid-area: a; text-align: left; }
+.view6--m { grid-area: b; height: 700px; }
+
 .view {
   display: grid;
+}
+
+.reveal h1.neon,
+.reveal .neon {
+  color: #fff;
+  text-shadow:
+          0 0 2px #fff,
+          0 0 4px #fff,
+          0 0 8px #fff,
+          0 0 16px #4472c4,
+          0 0 80px #4472c4,
+          0 0 90px #4472c4,
+          0 0 100px #4472c4,
+          0 0 150px #4472c4;
+}
+
+.reveal .neon--animate {
+  animation: flicker 2s linear infinite;
+}
+
+.reveal h1.neon--second,
+.reveal .neon--second {
+  color: #4472c4;
+  text-shadow:
+          0 0 2px #4472c4,
+          0 0 4px #4472c4,
+          0 0 8px #4472c4,
+          0 0 16px #4472c4,
+          0 0 80px #4472c4,
+          0 0 90px #4472c4,
+          0 0 100px #4472c4,
+          0 0 150px #fff;
+}
+
+
+@keyframes flicker {
+  from {
+    opacity: 1;
+  }
+
+  4% {
+    opacity: .9;
+  }
+
+  6% {
+    opacity: .85;
+  }
+
+  8% {
+    opacity: .95;
+  }
+
+  10% {
+    opacity: .90;
+  }
+
+  11% {
+    opacity: .922;
+  }
+
+  12% {
+    opacity: .9;
+  }
+
+  14% {
+    opacity: .95;
+  }
+
+  16% {
+    opacity: .98;
+  }
+
+  17% {
+    opacity: .9;
+  }
+
+  19% {
+    opacity: .93;
+  }
+
+  20% {
+    opacity: .99;
+  }
+
+  24% {
+    opacity: 1;
+  }
+
+  26% {
+    opacity: .94;
+  }
+
+  28% {
+    opacity: .98;
+  }
+
+  37% {
+    opacity: .93;
+  }
+
+  38% {
+    opacity: .8;
+  }
+
+  39% {
+    opacity: .96;
+  }
+
+  42% {
+    opacity: 1;
+  }
+
+  44% {
+    opacity: .97;
+  }
+
+  46% {
+    opacity: .94;
+  }
+
+  56% {
+    opacity: .9;
+  }
+
+  58% {
+    opacity: .9;
+  }
+
+  60% {
+    opacity: .99;
+  }
+
+  68% {
+    opacity: 1;
+  }
+
+  70% {
+    opacity: .9;
+  }
+
+  72% {
+    opacity: .95;
+  }
+
+  93% {
+    opacity: .93;
+  }
+
+  95% {
+    opacity: .95;
+  }
+
+  97% {
+    opacity: .93;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+#showVideoButton {
+  cursor: pointer;
+  border: transparent;
+  margin: 0;
+  padding: 0;
+  background-color: black;
 }

@@ -33,12 +33,9 @@ function errorMsg(msg, error) {
   }
 }
 
-export async function init(e) {
-  try {
-    const stream = await navigator.mediaDevices.getUserMedia(constraints);
-    handleSuccess(stream);
-    e.target.disabled = true;
-  } catch (e) {
-    handleError(e);
-  }
+export function init() {
+  const video = document.getElementById('showVideoVideo');
+  navigator.mediaDevices.getUserMedia({audio: false, video: true})
+    .then((stream) => { video.srcObject = stream; })
+    .catch(console.error);
 }
