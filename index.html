@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+		<title>talk vk calls</title>
 
 		<link rel="stylesheet" href="dist/reset.css">
 		<link rel="stylesheet" href="dist/reveal.css">
@@ -16,6 +16,7 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
+                <!-- intro -->
 				<section
 						data-transition="none"
 						class="main-text"
@@ -62,6 +63,7 @@
 					</section>
 				</section>
 
+                <!-- теория -->
 				<section
 						data-transition="none"
 						class="main-text"
@@ -486,6 +488,7 @@ button.addEventListener('click', init);
 					</section>
 				</section>
 
+                <!-- 1 часть -->
 				<section data-transition="none">
                     <section data-transition="none">
                         <div class="view6">
@@ -531,7 +534,6 @@ button.addEventListener('click', init);
                         </div>
                     </section>
 
-
 					<section data-transition="none">
 						<div class="view6">
 							<h1 class="view6--h">Архитектура звонка</h1>
@@ -555,141 +557,184 @@ button.addEventListener('click', init);
 					</section>
 
 					<section data-transition="none">
-						<div class="view1">
-							<h1 class="view1--h">Проблематика</h1>
-							<ul class="view1--m">
-								<li>Крэш при видео > 50</li>
-								<li>Много сетевого трафика расходуется зря, так как мы большую часть просто не показываем</li>
+						<div class="view2">
+							<h1 class="view2--h">Сложности WebRTC в групповых</h1>
+							<ul class="view2--m">
+                                <li class="fragment">Крэш при видео > 50</li>
+								<li class="fragment">Нужно ли столько видео?</li>
+								<li class="fragment">Может просто выводить постранично?</li>
+                                <li class="fragment">А что делать с аудио если нет стрима?</li>
 							</ul>
+                            <img class="view2--1" src="png/100-participants.png" />
 						</div>
 					</section>
 
 					<section data-transition="none">
-						<div class="view1">
-							<h1 class="view1--h">крэш при видео > 50</h1>
-							<div class="view1--m">
-								<a href="https://chromium-review.googlesource.com/c/chromium/src/+/2816118/9/content/renderer/media/media_factory.cc#420">commit</a>
+						<div class="view7">
+							<h1 class="view7--h">Too many WebMediaPlayers</h1>
+                            <div class="view7--1" style="color: orangered">[Intervention] Blocked attempt to create a WebMediaPlayer as there are too many WebMediaPlayers already in existence. See crbug.com/1144736#c27</div>
+                            <div class="view7--2">
 								<pre data-id="code" style="height: 600px"><code data-line-numbers class="hljs" data-trim>
-	// This limit corresponds to the per-platform 99.9th %ile of the number of
-	// WebMediaPlayers used by a single frame, as measured in March 2021. This
-	// tries to balance minimizing web platform breakage and preventing abusive
-	// API usage. See http://crbug.com/1144736#c49
-	constexpr size_t kDefaultMaxWebMediaPlayers =
-	#if defined(OS_ANDROID)
-		40;
-	#else
-		// All desktop platforms share the same value.
-		75;
-	#endif
+  auto* delegate = GetWebMediaPlayerDelegate();
 
-	size_t GetMaxWebMediaPlayers() {
-	  static const size_t kMaxWebMediaPlayers = []() {
-		auto* command_line = base::CommandLine::ForCurrentProcess();
-		if (command_line->HasSwitch(switches::kMaxWebMediaPlayerCount)) {
-		  std::string value =
-			  command_line->GetSwitchValueASCII(switches::kMaxWebMediaPlayerCount);
-		  size_t parsed_value = 0;
-		  if (base::StringToSizeT(value, &parsed_value) && parsed_value > 0)
-			return parsed_value;
-		}
-		return kDefaultMaxWebMediaPlayers;
-	  }();
-	  return kMaxWebMediaPlayers;
-	}
-
-    auto* delegate = GetWebMediaPlayerDelegate();
-  	// Prevent a frame from creating too many media players, as they are extremely
-  	// heavy objects and a common cause of browser memory leaks. See
-  	// crbug.com/1144736
-  	if (delegate->web_media_player_count() >= GetMaxWebMediaPlayers()) {
-		blink::WebString message =
-			"Blocked attempt to create a WebMediaPlayer as there are too many "
-			"WebMediaPlayers already in existence. See crbug.com/1144736#c27";
-		web_frame->GenerateInterventionReport("TooManyWebMediaPlayers", message);
-		return nullptr;
-  	}
+  // Prevent a frame from creating too many media players, as they are extremely
+  // heavy objects and a common cause of browser memory leaks. See
+  // crbug.com/1144736
+  if (delegate->web_media_player_count() >= GetMaxWebMediaPlayers()) {
+    blink::WebString message =
+        "Blocked attempt to create a WebMediaPlayer as there are too many "
+        "WebMediaPlayers already in existence. See crbug.com/1144736#c27";
+    web_frame->GenerateInterventionReport("TooManyWebMediaPlayers", message);
+    return nullptr;
+  }
 								</code></pre>
 							</div>
-							<img class="view1--r1" src="images/chrome-error.jpg" alt="audio-mix">
-							<div class="view1--r2" style="color: orangered">[Intervention] Blocked attempt to create a WebMediaPlayer as there are too many WebMediaPlayers already in existence. See crbug.com/1144736#c27</div>
+                            <div class="view7--3">
+                                <a href="https://chromium-review.googlesource.com/c/chromium/src/+/2816118/9/content/renderer/media/media_factory.cc#420">Merge request</a>
+                            </div>
 						</div>
 					</section>
 
 					<section data-transition="none">
-						<div class="view1">
-							<h1 class="view1--h">крэш при видео > 50</h1>
-							<div class="view1--m">
-								<pre data-id="code" style="height: 600px"><code data-line-numbers class="hljs" data-trim>
-// example 2
+						<div class="view2">
+							<h1 class="view2--h">Too many WebMediaPlayers</h1>
+							<div class="view2--m fragment">
+								<pre data-id="code" style="height: 350px"><code data-line-numbers="1-7|9-11" class="hljs" data-trim>
+// example 1
 function onEnded(){
-	this.currentSrc = null;
-    this.src = "";
-    this.srcObject = null;
-    this.remove();
+  this.currentSrc = null;
+  this.src = "";
+  this.srcObject = null;
+  this.remove();
 };
 
-// example 1
-mediaElement.remove();
-mediaElement.srcObject = null;
+// example 2
+mediaEl.remove();
+mediaEl.srcObject = null;
 								</code></pre>
+                                <p class="fragment">Неизвестно когда объект WebMediaPlayer будет удален</p>
 							</div>
-							<img class="view1--r1" src="images/player-destroy.png" alt="audio-mix">
+							<img class="view2--i" src="images/player-destroy.png" alt="audio-mix">
 						</div>
 					</section>
 
-
 					<section data-transition="none">
 						<div class="view1">
-							<h1 class="view1--h">крэш при видео > 50</h1>
+							<h1 class="view1--h"></h1>
 							<div class="view1--m">
 								<ul>
-									<li class="fragment">запретить включать больше 40 видео (telegram)</li>
-									<li class="fragment">
-										слать не все видео/аудио потоки
-										<ul>
-											<li class="fragment">но как быть с аудио?</li>
-											<li class="fragment">какие именно видео не слать?</li>
-										</ul>
-									</li>
+                                    <li class="fragment">Запретить включать больше N видео? <span class="fragment">😞</span></li>
+                                    <li class="fragment">Постраничный вывод?  <span class="fragment">😒</span></li>
+									<li class="fragment">Слать не все потоки пользователей? <span class="fragment">😟</span></li>
+                                    <li class="fragment">А как услышать того, чей стрим не транслируется? <span class="fragment">🤔</span></li>
 								</ul>
 							</div>
 						</div>
 					</section>
 
+                    <section data-transition="none" data-auto-animate>
+                        <div class="view8">
+                            <div class="view8--2">
+                                <ul>
+                                    <li class="fragment">🤔</li>
+                                    <li class="fragment">Видео не масштабируется</li>
+                                    <li class="fragment">Аудио? <span class="fragment">Масштабируется 💡</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section data-transition="none" data-auto-animate>
+                        <div class="view7">
+                            <div class="view7--h" style="margin-bottom: 100px">
+                                <ul>
+                                    <li>🤔</li>
+                                    <li>Видео не масштабируется</li>
+                                    <li>Аудио? <span>Масштабируется 💡</span></li>
+                                </ul>
+                            </div>
+                            <div class="view7--2 flexbox">
+                                <div class="fragment">
+                                    <h4 style="padding-right: 60px">MESH</h4>
+                                    <img src="svg/mesh.svg" height="400px" />
+                                </div>
+                                <div class="fragment">
+                                    <h4 style="padding-right: 70px">SFU</h4>
+                                    <img src="svg/sfu.svg" height="400px" />
+                                </div>
+                                <div class="fragment">
+                                    <h4 style="padding-right: 70px">MCU</h4>
+                                    <img src="svg/mcu.svg" height="400px" />
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section data-transition="none" data-auto-animate>
+                        <div class="view7">
+                            <div class="view7--h" style="margin-bottom: 100px">
+                                <ul>
+                                    <li>🤔</li>
+                                    <li>Видео не масштабируется</li>
+                                    <li>Аудио? <span>Масштабируется 💡</span></li>
+                                </ul>
+                            </div>
+                            <div class="view7--2">
+                                <div>
+                                    <h4 style="padding-right: 70px">MCU</h4>
+                                    <img src="svg/mcu.svg" height="600px"/>
+                                </div><img class="view7--1 svg" src="png/audio-mix2.png" style="
+    margin: 0;
+    padding: 0;
+    height: 900px;
+">
+                            </div>
+                        </div>
+                    </section>
+
 					<section data-transition="none">
-						<div class="view2">
-							<h1 class="view2--h">крэш при видео > 50</h1>
-							<img class="view2--i" src="images/topology.png" alt="topology">
+						<div class="view7">
+							<h1 class="view7--h">MCU audio mix</h1>
+							<img class="view7--1" style="margin: 0; padding: 0; height: 800px" src="png/audio-mix1.png" />
 						</div>
 					</section>
 
 					<section data-transition="none">
-						<div class="view2">
-							<h1 class="view2--h">MCU | audio mix</h1>
-							<img class="view2--i" src="images/audio-mix.png" alt="audio-mix">
-							<ul class="view2--m">
-								<li class="fragment">отправка видео не влияет на аудио</li>
-								<li class="fragment">перерисовки не влияют</li>
-								<li class="fragment">уже можно быть в звонке (даже без UI)</li>
-							</ul>
+						<div class="view7">
+							<h1 class="view7--h">MCU audio mix</h1>
+							<img class="view7--1" style="margin: 0; padding: 0; height: 800px" src="png/audio-mix2.png" />
 						</div>
 					</section>
 
+                    <section data-transition="fade out">
+                        <div class="view8">
+                            <h4><a href="https://habr.com/ru/company/vk/blog/572950/">Нейросети против пылесоса, или Как мы убрали лишний шум в звонках ВКонтакте</a></h4>
+                            <img src="images/habr-noise.png" />
+                        </div>
+                    </section>
+
+                    <section data-transition="none" data-auto-animate>
+                        <div class="view7">
+                            <h1 class="view7--h">SFU video</h1>
+                        </div>
+                    </section>
+
 					<section data-transition="none">
 						<div class="view2">
-							<h1 class="view2--h">track on demand</h1>
-							<img src="images/video-on-demand-1.jpg" height="600px" alt="video-on-demand-1">
-							<div class="view2--m">
-																<pre data-id="code" style="height: 600px"><code data-line-numbers class="hljs" data-trim>
-  // onShow - идем за видео
-  // onHide - удаляем видео
-
+							<h1 class="view2--h">Track on demand</h1>
+							<img src="png/video-1.png" height="600px" alt="video-on-demand-1">
+							<div class="view2--m fragment">
+																<pre data-id="code" style="height: 600px"><code data-line-numbers="1-100|4|5-11|1-100" class="hljs" data-trim>
   React.useEffect(() => {
     if (onShow && onHide) {
       onShow(id);
       const observer = new IntersectionObserver(
         ([entry]) => {
-          if (entry.isIntersecting) {onShow(id)} else {onHide(id)}
+          if (entry.isIntersecting) {
+            onShow(id)
+          } else {
+            onHide(id)
+          }
         },
         {
           root: null,
@@ -706,21 +751,22 @@ mediaElement.srcObject = null;
 						</div>
 					</section>
 
-					<section data-transition="none">
-						<div class="view2">
-							<h1 class="view2--h">track on demand</h1>
-							<img src="images/video-on-demand-2.jpg" height="600px" alt="video-on-demand-2">
-							<div class="view2--m">
+                    <section data-transition="none">
+                        <div class="view2">
+                            <h1 class="view2--h">Track on demand</h1>
+                            <img src="png/video-2.png" height="600px" alt="video-on-demand-1">
+                            <div class="view2--m">
 																<pre data-id="code" style="height: 600px"><code data-line-numbers class="hljs" data-trim>
-  // onShow - идем за видео
-  // onHide - удаляем видео
-
   React.useEffect(() => {
     if (onShow && onHide) {
       onShow(id);
       const observer = new IntersectionObserver(
         ([entry]) => {
-          if (entry.isIntersecting) {onShow(id)} else {onHide(id)}
+          if (entry.isIntersecting) {
+            onShow(id)
+          } else {
+            onHide(id)
+          }
         },
         {
           root: null,
@@ -733,20 +779,20 @@ mediaElement.srcObject = null;
     }
   }, [ref]);
 								</code></pre>
-							</div>
-						</div>
-					</section>
+                            </div>
+                        </div>
+                    </section>
 
-					<section data-transition="none">
-						<div class="view2">
-							<h1 class="view2--h">quality on demand</h1>
-							<img src="images/qualiti-on-demand.jpg" height="600px" alt="video-on-demand-2">
-							<div class="view2--m">
+                    <section data-transition="none">
+                        <div class="view2">
+                            <h1 class="view2--h">quality on demand</h1>
+                            <img src="png/video-2.png" height="600px" alt="video-on-demand-2">
+                            <div class="view2--m fragment">
 																<pre
-																		data-id="code"
-																		style="height: 600px"
-																><code data-line-numbers="8,9|10-12" class="hljs" data-trim>
-function getGridLayout(
+                                                                        data-id="code"
+                                                                        style="height: 600px"
+                                                                ><code data-line-numbers="8,9|10-12|1-100" class="hljs" data-trim>
+function getOratorLayout(
   participant: Participant,
   cardSize: number,
   cardPriority: number,
@@ -758,7 +804,34 @@ function getGridLayout(
     fit: Fit.COVER,
     width: cardSize,
     height: cardSize,
-    keyFrame: false,
+  };
+}
+								</code></pre>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section data-transition="none">
+						<div class="view2">
+							<h1 class="view2--h">quality on demand</h1>
+							<img src="png/video-3.png" height="600px" alt="video-on-demand-2">
+							<div class="view2--m">
+																<pre
+																		data-id="code"
+																		style="height: 600px"
+																><code data-line-numbers class="hljs" data-trim>
+function getOratorLayout(
+  participant: Participant,
+  cardSize: number,
+  cardPriority: number,
+  mediaType: MediaType | null = null,
+): ParticipantLayout {
+  return {
+    uid: participant.id,
+    mediaType,
+    fit: Fit.COVER,
+    width: cardSize,
+    height: cardSize,
   };
 }
 								</code></pre>
@@ -766,16 +839,28 @@ function getGridLayout(
 						</div>
 					</section>
 
-					<section data-transition="none">
-						<div class="view2">
-							<h1 class="view2--h">keyframe on demand</h1>
-							<img src="images/key-frame-on-demand.jpg" height="600px" alt="video-on-demand-2">
-							<div class="view2--m">
+                    <section data-transition="none">
+                        <div class="view2">
+                            <h1 class="view2--h">quality on demand</h1>
+                            <img src="png/video-3.png" height="600px" alt="video-on-demand-2">
+                            <div class="view2--m">
+                                <img class="fragment" src="png/video-keyframe.png" height="300px">
+                                <p class="fragment">Придется ждать keyframe</p>
+                            </div>
+                        </div>
+                    </section>
+
+
+                    <section data-transition="none">
+                        <div class="view2">
+                            <h1 class="view2--h">quality on demand</h1>
+                            <img src="png/video-3.png" height="600px" alt="video-on-demand-2">
+                            <div class="view2--m">
 																<pre
-																		data-id="code"
-																		style="height: 600px"
-																><code data-line-numbers="13" class="hljs" data-trim>
-function getGridLayout(
+                                                                        data-id="code"
+                                                                        style="height: 600px"
+                                                                ><code data-line-numbers="13" class="hljs" data-trim>
+function getOratorLayout(
   participant: Participant,
   cardSize: number,
   cardPriority: number,
@@ -791,80 +876,107 @@ function getGridLayout(
   };
 }
 								</code></pre>
-							</div>
-						</div>
-					</section>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section data-transition="fade out">
+                        <div class="view8">
+                            <h4><a href="https://habr.com/ru/company/vk/blog/581732/">Видео в звонках ВКонтакте: 4К-скриншеринг и Quality on-demand для тысяч участников</a></h4>
+                            <img src="images/habr-video.png" />
+                        </div>
+                    </section>
 
 					<section data-transition="none">
-						<div class="view1">
-							<h1 class="view1--h">Результат</h1>
-							<ul class="view1--m">
-								<li style="text-decoration: line-through">крэш при видео > 50</li>
-								<li style="text-decoration: line-through">слишком большая нагрузка на сеть</li>
-								<li>Количество участников не ограничивается на клиентом</li>
-								<li>Уменьшили нагрузку на CPU/GPU/Net/RAM</li>
-								<li>Бережный расход батареи, не греется комп</li>
-							</ul>
-						</div>
-					</section>
-
-					<section data-transition="none">
-						<div class="view1">
-							<h1 class="view1--h">intersection observer</h1>
-							<ul class="view1--m">
-								<li class="fragment">пропускает элементы при быстром скролле</li>
-								<li class="fragment">срабатывает после отрисовки UI</li>
-								<li class="fragment">возникают утечки треков</li>
-							</ul>
-						</div>
-					</section>
-
-					<section data-transition="none">
-						<div class="view1">
-							<h1 class="view1--h">Проблематика</h1>
-							<ul class="view1--m">
-								<li style="text-decoration: line-through">крэш при видео > 50</li>
-								<li style="text-decoration: line-through">Много сетевого трафика расходуется зря, так как мы большую часть просто не показываем</li>
-								<li><b>Видео появляется не сразу</b></li>
-								<li><b>Необходимо нарисовать UI, перед тем как запрашивать видео</b></li>
-							</ul>
+						<div class="view7">
+							<h1 class="view7--h"></h1>
+                            <div class="view7--m flexbox">
+                                <div class="fragment">
+                                    <h4 class="fragment">❌</h4>
+                                    <img src="png/100-participants.png"  height="500px"/>
+                                </div>
+                                <div class="fragment">
+                                    <h4 class="fragment">MCU audio mix</h4>
+                                    <img src="png/audio-mix2.png" height="500px" />
+                                </div>
+                                <div class="fragment">
+                                    <h4 class="fragment">SFU track/quality/keyframe on demand</h4>
+                                    <img src="png/video-3.png" height="500px" />
+                                </div>
+                            </div>
 						</div>
 					</section>
 				</section>
 
+                <!-- 2 часть -->
 				<section data-transition="none">
 					<section data-transition="none">
-						<div class="view1">
-							<h1 class="view1--h">UX оптимизации</h1>
-							<ul class="view1--m">
-								<li class="fragment">Отсутсвие индикации плохой сети</li>
-								<li class="fragment">данные по сигналингу и стримы не всегда приходят синхронно</li>
-								<li class="fragment">дорогие перерисовки</li>
-								<li class="fragment">некоторые анимированные отрисовки сильно тормозят</li>
-								<li class="fragment">"мылилась" скриншара</li>
+						<div class="view8">
+							<h1 class="view8--h">UX</h1>
+							<ul class="view8--m">
+								<li class="fragment">Работа в плохой сети</li>
+								<li class="fragment">Синхронизация сигналинга и стримов</li>
+								<li class="fragment">Дороговизна перерисовки</li>
+								<li class="fragment">Пошаговая анимация</li>
+								<li class="fragment">"Мыльная" скриншара</li>
 							</ul>
 						</div>
 					</section>
 
-					<section data-transition="none">
-						<div class="view2">
-							<h1 class="view2--h">Индикатор плохой сети</h1>
-							<img class="view2--i" src="images/bad-net.png" height="500px">
-							<div class="view2--m">
-																								<pre
-																										data-id="code"
-																										style="height: 600px"
-																								><code data-line-numbers="13" class="hljs" data-trim>
-TODO
-   индикация
-   плохой
-сети
-								</code></pre>
-							</div>
-						</div>
+                    <section data-transition="none">
+                        <div class="view8">
+                            <h1>Работа в плохой сети</h1>
+                            <div style="display: flex; justify-content: center;">
+                                <img class="fragment" src="png/bad-network1.png" height="500px">
+                                <div>
+                                    <ul>
+                                        <li class="fragment">Фриз видео</li>
+                                        <li class="fragment">Лаги аудио</li>
+                                        <li class="fragment">Реконнекты</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
 					</section>
 
-					<section data-transition="none">
+                    <section data-transition="none">
+                        <div class="view8">
+                            <h1><a href="https://habr.com/ru/company/vk/blog/574604/">Аудиопайплайн звонка ВКонтакте</a></h1>
+                            <div style="display: flex; justify-content: center;">
+                                <img class="fragment" src="images/audiopipeline.png" height="800px">
+                                <div>
+                                    <ul>
+                                        <li class="fragment">Packet loss concealment</li>
+                                        <li class="fragment">Forward error correction</li>
+                                        <li class="fragment">Time stretching</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+
+                    <section data-transition="none">
+                        <div class="view8">
+                            <img class="fragment" src="png/bad-network1.png" height="500px">
+                        </div>
+                    </section>
+
+                    <section data-transition="none">
+                        <div class="view8">
+                            <img src="png/bad-network2.png" height="500px">
+                        </div>
+                    </section>
+
+                    <section data-transition="none">
+                        <div class="view8">
+                            <h4>🤔</h4>
+                            <div class="fragment">packet loss</div>
+                            <div class="fragment">round trip</div>
+                        </div>
+                    </section>
+
+                    <section data-transition="none">
 						<div class="view2">
 							<h1 class="view2--h">datachannel и синхронизация</h1>
 							<img class="view2--i" style="background: wheat;" src="images/datachannel-signaling.png" height="500px">
@@ -1033,6 +1145,7 @@ TODO
 					</section>
 				</section>
 
+                <!-- 3 часть -->
 				<section data-transition="none">
 					<section data-transition="none">
 						<div class="view1">
@@ -1047,7 +1160,18 @@ TODO
 						</div>
 					</section>
 
-					<section data-transition="none">
+                    <section data-transition="none">
+                        <div class="view1">
+                            <h1 class="view1--h">intersection observer</h1>
+                            <ul class="view1--m">
+                                <li class="fragment">пропускает элементы при быстром скролле</li>
+                                <li class="fragment">срабатывает после отрисовки UI</li>
+                                <li class="fragment">возникают утечки треков</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <section data-transition="none">
 						видео слоты<br>
 						<img src="images/slots.jpg" height="600px">
 					</section>
@@ -1087,6 +1211,7 @@ TODO
 					</section>
 				</section>
 
+                <!-- конец -->
 				<section data-transition="none">
 					<section data-transition="none">
 						[глобальный вывод]

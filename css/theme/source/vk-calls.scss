@@ -159,6 +159,12 @@ $blue: #4472c4;
   grid-area: c;
 }
 
+.flexbox {
+  display: flex;
+  justify-content: space-between;
+  width: 1800px;
+  text-align: center;
+}
 
 // view 4 с большой картинкой сбоку
 
@@ -233,6 +239,29 @@ $blue: #4472c4;
 
 .view6--h { grid-area: a; text-align: left; }
 .view6--m { grid-area: b; height: 700px; }
+
+.view7 {
+  grid-template-areas:
+            "a"
+            "b"
+            "c"
+            "d";
+  width: 1800px;
+  height: 1000px;
+}
+
+.view8 {
+  grid-template-areas:
+            "a"
+            "b"
+            "c"
+            "d";
+}
+
+.view6--h { grid-area: a; }
+.view6--1 { grid-area: b; }
+.view6--2 { grid-area: c; }
+.view6--3 { grid-area: d; }
 
 .view {
   display: grid;
