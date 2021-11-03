@@ -312,21 +312,3 @@ gulp.task('serve', () => {
     gulp.watch(['test/*.html'], gulp.series('test'))
 
 })
-
-const dc = pc
-  .createDataChannel("dc");
-dc.send("some string");
-
-otherPc.addEventListener(
-  'datachannel',
-  e => {
-    const channel = e.channel;
-    channel
-      .onmessage = ev => {
-        console.log(
-          'received',
-          ev.data
-        );
-    };
-  }
-);
