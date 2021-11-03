@@ -1111,25 +1111,62 @@ otherPc.addEventListener(
                 <!-- 3 часть -->
 				<section data-transition="none">
 
-                    <section data-transition="none">
-                        <div class="view1">
-                            <h1 class="view1--h">Проблематика</h1>
-                            <ul class="view1--m">
-                                <li>Intersection Observer. видео можно запросить только после отрисовки</li>
-                                <li>Постоянные пересоздания video тега</li>
-                                <li>Запрос keyframe может "не попасть" в готовый video тег</li>
-                                <li>рисовать 2000+ карточек становится дорого</li>
-                                <li>Дорого пробегать по массиву в 2000+</li>
-                                <li>Дорого загружать данные всех пользователей на клиент</li>
-                                <li>Слишком много событий от пользователей</li>
+                    <section data-transition="none" data-auto-animate>
+                        <div class="view">
+                            <img class="image" src="images/many-participants.png" />
+                            <img class="image" src="images/many-participants2.png" />
+                            <img class="image" src="images/many-participants2.png" />
+                            <img class="image" src="images/many-participants2.png" />
+                            <img class="image" src="images/many-participants2.png" />
+                            <img class="image" src="images/many-participants2.png" />
+                            <img class="image" src="images/many-participants2.png" />
+                            <img class="image" src="images/many-participants2.png" />
+                            <img class="image" src="images/many-participants2.png" />
+                            <img class="image" src="images/many-participants2.png" />
+                        </div>
+                    </section>
+
+                    <section data-transition="none" data-auto-animate>
+                        <div class="view">
+                            <img class="image2" src="images/many-participants.png" />
+                            <img class="image2" src="images/many-participants2.png" />
+                            <img class="image2" src="images/many-participants2.png" />
+                            <img class="image2" src="images/many-participants2.png" />
+                            <img class="image2" src="images/many-participants2.png" />
+                            <img class="image2" src="images/many-participants2.png" />
+                            <img class="image2" src="images/many-participants2.png" />
+                            <img class="image2" src="images/many-participants2.png" />
+                            <img class="image2" src="images/many-participants2.png" />
+                            <img class="image2" src="images/many-participants2.png" />
+                        </div>
+                    </section>
+
+                    <section data-transition="none" data-auto-animate>
+                        <div class="view8">
+                            <h1>2k участников</h1>
+                            <ul>
+                                <li class="fragment">Intersection Observer
+                                    <ul>
+                                        <li class="fragment">Видео можно запросить только после отрисовки</li>
+                                        <li class="fragment">Пропускает элементы при быстром скролле</li>
+                                        <li class="fragment">Срабатывает после отрисовки UI</li>
+                                        <li class="fragment">Возникают утечки треков</li>
+                                    </ul>
+                                </li>
+                                <li class="fragment">Пересоздания &lt;video&gt;</li>
+                                <li class="fragment">Запрос keyframe может "не попасть" в готовый video тег</li>
+                                <li class="fragment">рисовать 2k карточек становится дорого</li>
+                                <li class="fragment">Дорого пробегать по массиву в 2k</li>
+                                <li class="fragment">Дорого загружать данные всех пользователей на клиент</li>
+                                <li class="fragment">Слишком много событий от пользователей</li>
                             </ul>
                         </div>
                     </section>
 
-					<section data-transition="none">
-						<div class="view1">
-							<h1 class="view1--h">переход на 2000+ участников</h1>
-							<ul class="view1--m">
+                    <section data-transition="none" data-auto-animate>
+						<div class="view8">
+							<h1>2k участников</h1>
+							<ul class="view">
 								<li class="fragment">Отказаться от отрисовки всех участников</li>
 								<li class="fragment">Ленивая подгрузка данных</li>
 								<li class="fragment">Оптимизация работы с видео</li>
@@ -1139,35 +1176,82 @@ otherPc.addEventListener(
 						</div>
 					</section>
 
-                    <section data-transition="none">
-                        <div class="view1">
-                            <h1 class="view1--h">intersection observer</h1>
-                            <ul class="view1--m">
-                                <li class="fragment">пропускает элементы при быстром скролле</li>
-                                <li class="fragment">срабатывает после отрисовки UI</li>
-                                <li class="fragment">возникают утечки треков</li>
-                            </ul>
+                    <section data-transition="none" data-auto-animate>
+                        <div class="view8">
+                            <h1>video slots</h1>
                         </div>
                     </section>
 
+                    <section data-transition="none"  data-auto-animate>
+                        <img src="images/pool0.png">
+                    </section>
+
+                    <section data-transition="none"  data-auto-animate>
+                        <img src="images/pool3.png">
+                    </section>
+
                     <section data-transition="none">
-						видео слоты<br>
-						<img src="images/slots.jpg" height="600px">
+                        <img src="images/pool4.png">
+                    </section>
+
+                    <section data-transition="none">
+                        <img src="images/pool5.png">
+                    </section>
+
+
+                    <section data-transition="none" data-auto-animate>
+                        <div class="view8">
+                            <h1>video slots</h1>
+                            <ul class="view">
+                                <li class="fragment">WebMediaPlayers константа</li>
+                                <li class="fragment">Не тратится время на инициализацию</li>
+                                <li class="fragment">Есть "последний кадр" не затертых стримов</li>
+                            </ul>
+                            <img class="fragment" src="images/arch1.png">
+                        </div>
+                    </section>
+
+
+                    <section data-transition="none">
+                        <h1>&lt;video&gt; slots</h1>
+						<img class="fragment" src="images/video-slot1.png" height="300px">
+                        <img class="fragment" src="images/video-slot2.png" height="300px">
 					</section>
 
-					<section data-transition="none">
-						хранение DOM элемента вместо stream
-						<img src="images/dom.jpg" height="600px">
+
+                    <section data-transition="none" data-auto-animate>
+                        <img src="images/arch2.png">
+                    </section>
+
+                    <section data-transition="none" data-auto-animate>
+                        <h1>События</h1>
+                        <ul>
+                            <li class="fragment">Допустим 1 участник = 1 событие в минуту</li>
+                            <li class="fragment">Вкл. видео/аудио, реконнект, плохая сеть, поднятая рука</li>
+                            <li class="fragment">Или 1 событие в 30ms</li>
+                        </ul>
+                    </section>
+
+                    <section data-transition="none">
+                        <h1>Группировка событий</h1>
+                        <img src="images/batch1.png" height="600px">
 					</section>
 
-					<section data-transition="none">
-						группировка событий (батчинг)<br/>
-						<ul>
-							<li>на старте одно событие с слепком состояния звонка</li>
-							<li>события идут через throttle/debounce</li>
-						</ul><br/>
-						<img src="images/batch.jpg" height="400px">
-					</section>
+                    <section data-transition="none">
+                        <h1>Группировка событий</h1>
+                        <img src="images/batch2.png" height="600px">
+                    </section>
+
+                    <section data-transition="none" data-auto-animate>
+                        <h1>Группировка событий</h1>
+                        <img src="images/batch3.png" height="800px">
+                    </section>
+
+                    <section data-transition="none">
+                        <h1>Группировка событий</h1>
+                        <img src="images/batch4.png" height="800px">
+                    </section>
+
 
 					<section data-transition="none">
 						infinity scroll<br/>
@@ -1184,9 +1268,7 @@ otherPc.addEventListener(
 					</section>
 
 					<section data-transition="none">
-						[развязка] демонстрация звонков на 6000+<br/>
-						+ итоги кульминации<br/>
-						видео с звонком на 6к
+						<video src="video/video-5k.webm" controls="controls"></video>
 					</section>
 				</section>
 
